@@ -10,9 +10,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
 
 type Profile = {
   name: string
@@ -35,9 +44,10 @@ export function App() {
   })
   const [draft, setDraft] = useState<Profile>(profile)
   const [saved, setSaved] = useState(false)
+  const [emailNotifications, setEmailNotifications] = useState(true)
+  const [productNews, setProductNews] = useState(false)
 
-  const isChanged =
-    draft.name !== profile.name || draft.email !== profile.email
+  const isChanged = draft.name !== profile.name || draft.email !== profile.email
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -55,9 +65,7 @@ export function App() {
       <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>Профіль</CardTitle>
-          <CardDescription>
-            Ваші особисті дані в кабінеті
-          </CardDescription>
+          <CardDescription>Ваші особисті дані в кабінеті</CardDescription>
         </CardHeader>
 
         <CardContent className="flex flex-col gap-6">
@@ -104,6 +112,44 @@ export function App() {
               </Field>
             </FieldGroup>
           </form>
+
+          <Separator />
+
+          <FieldSet>
+            <FieldLegend>Сповіщення</FieldLegend>
+            <FieldGroup>
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldLabel htmlFor="email-notifications">
+                    Листи на пошту
+                  </FieldLabel>
+                  <FieldDescription>
+                    Важливі повідомлення про ваш акаунт
+                  </FieldDescription>
+                </FieldContent>
+                <Switch
+                  id="email-notifications"
+                  checked={emailNotifications}
+                  onCheckedChange={setEmailNotifications}
+                />
+              </Field>
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldLabel htmlFor="product-news">
+                    Новини продукту
+                  </FieldLabel>
+                  <FieldDescription>
+                    Оновлення, нові функції та поради
+                  </FieldDescription>
+                </FieldContent>
+                <Switch
+                  id="product-news"
+                  checked={productNews}
+                  onCheckedChange={setProductNews}
+                />
+              </Field>
+            </FieldGroup>
+          </FieldSet>
         </CardContent>
 
         <CardFooter className="justify-end gap-3">
